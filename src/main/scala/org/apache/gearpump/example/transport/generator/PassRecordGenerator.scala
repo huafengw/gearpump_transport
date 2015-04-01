@@ -29,8 +29,8 @@ class PassRecordGenerator(vehicleId: String, city: MockCity, overdriveThreshold:
 }
 
 object PassRecordGenerator extends App{
-  final val FAKE_PLATE_RRATE = 0F
-  final val OVERDRIVE_RATE = 0F
+  final val FAKE_PLATE_RRATE = 0.01F
+  final val OVERDRIVE_RATE = 0.1F
   final val TWOMINUTES = 2 * 60 * 1000
   
   def create(generatorNum: Int, prefix: String, city: MockCity, overdriveThreshold: Int): Array[PassRecordGenerator] = {
