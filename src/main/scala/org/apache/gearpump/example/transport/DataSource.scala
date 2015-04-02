@@ -7,7 +7,7 @@ import org.apache.gearpump.streaming.task.{TaskId, StartTime, TaskContext, Task}
 import scala.concurrent.duration._
 
 class DataSource(taskContext: TaskContext, conf: UserConfig) extends Task(taskContext, conf){
-  import taskContext.{output, parallelism, taskId}
+  import taskContext.{output, parallelism, taskId, scheduleOnce}
 
   import system.dispatcher
   private val overdriveThreshold = conf.getInt(VelocityInspector.OVER_DRIVE_THRESHOLD).get
@@ -24,7 +24,7 @@ class DataSource(taskContext: TaskContext, conf: UserConfig) extends Task(taskCo
   override def onNext(msg: Message): Unit = {
     recordGenerators.foreach(generator => 
       output(Message(generator.getNextPassRecord(), System.currentTimeMillis())))
-    system.scheduler.scheduleOnce(1 second)(self ! Message("continue", System.currentTimeMillis()))
+    scheduleOnce(1 second)(self ! Message("continue", System.currentTimeMillis()))
   }
   
   private def getIdentifier(taskId: TaskId): String = {

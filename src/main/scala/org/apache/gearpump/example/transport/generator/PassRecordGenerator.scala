@@ -1,13 +1,18 @@
 package org.apache.gearpump.example.transport.generator
 
 import org.apache.gearpump.example.transport.PassRecord
+import org.apache.gearpump.util.LogUtil
 
 import scala.util.Random
 
 class PassRecordGenerator(vehicleId: String, city: MockCity, overdriveThreshold: Int) {
+  private val LOG = LogUtil.getLogger(getClass)
+  LOG.info(s"Generate pass record for vehicle $vehicleId")
   private var timeStamp = System.currentTimeMillis()
+
   private var locationId = city.randomLocationId()
   private val random = new Random()
+  private val fakePlate = random.nextInt(1000) < 1000 * PassRecordGenerator.FAKE_PLATE_RATE
   private val (randomMin, randomRange) = {
     val lowerBound = MockCity.LENGTH_PER_BLOCK * 1000 * 60 * 60 / overdriveThreshold.toFloat
     val upperBound = MockCity.LENGTH_PER_BLOCK * 1000 * 60 * 60 / MockCity.MINIMAL_SPEED.toFloat
@@ -18,7 +23,7 @@ class PassRecordGenerator(vehicleId: String, city: MockCity, overdriveThreshold:
   }
   
   def getNextPassRecord(): PassRecord = {
-    locationId = if(random.nextInt(1000) < 1000 * PassRecordGenerator.FAKE_PLATE_RRATE) {
+    locationId = if(fakePlate) {
       city.randomLocationId()
     } else {
       city.nextLocation(locationId)
@@ -28,8 +33,8 @@ class PassRecordGenerator(vehicleId: String, city: MockCity, overdriveThreshold:
   }
 }
 
-object PassRecordGenerator extends App{
-  final val FAKE_PLATE_RRATE = 0.01F
+object PassRecordGenerator {
+  final val FAKE_PLATE_RATE = 0F
   final val OVERDRIVE_RATE = 0.1F
   final val TWOMINUTES = 2 * 60 * 1000
   

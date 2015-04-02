@@ -3,8 +3,8 @@ package org.apache.gearpump.example.transport.main
 import org.apache.gearpump.cluster.UserConfig
 import org.apache.gearpump.cluster.client.ClientContext
 import org.apache.gearpump.cluster.main.{ParseResult, ArgumentsParser, CLIOption}
-import org.apache.gearpump.example.transport.partitioner.PassRecordPartitioner
-import org.apache.gearpump.example.transport.{VelocityInspector, DataSource}
+import org.apache.gearpump.example.transport.{QueryServer, VelocityInspector, DataSource}
+import org.apache.gearpump.partitioner.HashPartitioner
 import org.apache.gearpump.streaming.{TaskDescription, AppDescription}
 import org.apache.gearpump.util.Graph
 import org.apache.gearpump.util.Graph._
@@ -26,12 +26,13 @@ object Transport extends App with ArgumentsParser {
     val threshold = config.getInt("threshold")
     val source = TaskDescription(classOf[DataSource].getName, sourceNum)
     val inspector = TaskDescription(classOf[VelocityInspector].getName, inspectorNum)
-    val partitioner = new PassRecordPartitioner
+    val queryServer = TaskDescription(classOf[QueryServer].getName, 1)
+    val partitioner = new HashPartitioner
     val userConfig = UserConfig.empty.withInt(DataSource.VEHICLE_NUM, vehicleNum).
       withInt(DataSource.MOCK_CITY_SIZE, citysize).
       withInt(VelocityInspector.OVER_DRIVE_THRESHOLD, threshold).
       withInt(VelocityInspector.FAKE_PLATE_THRESHOLD, 200)
-    AppDescription("transport", userConfig, Graph(source ~ partitioner ~> inspector))
+    AppDescription("transport", userConfig, Graph(source ~ partitioner ~> inspector, queryServer))
   }
   
   val config = parse(args)
