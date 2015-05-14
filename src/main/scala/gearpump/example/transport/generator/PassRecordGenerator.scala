@@ -1,6 +1,7 @@
-package org.apache.gearpump.example.transport.generator
+package gearpump.example.transport.generator
 
-import org.apache.gearpump.example.transport.PassRecord
+import gearpump.example.transport.PassRecord
+import PassRecord
 import org.apache.gearpump.util.LogUtil
 
 import scala.util.Random

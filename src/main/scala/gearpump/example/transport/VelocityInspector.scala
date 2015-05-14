@@ -1,13 +1,13 @@
-package org.apache.gearpump.example.transport
+package gearpump.example.transport
 
 import java.util.concurrent.TimeUnit
 
 import akka.actor.Actor._
 import akka.actor.ActorRef
 import akka.pattern.ask
+import gearpump.example.transport.generator.MockCity
 import org.apache.gearpump.Message
 import org.apache.gearpump.cluster.UserConfig
-import org.apache.gearpump.example.transport.generator.MockCity
 import org.apache.gearpump.partitioner.Partitioner
 import org.apache.gearpump.streaming._
 import org.apache.gearpump.streaming.appmaster.AppMaster.{TaskActorRef, LookupTaskActorRef}
@@ -53,7 +53,7 @@ class VelocityInspector(taskContext: TaskContext, conf: UserConfig) extends Task
             LOG.info(s"vehicle ${passRecord.vehicleId} maybe a fake plate, the speed is $formatted km/h")
           } else if(velocity > overdriveThreshold) {
             if(queryServerActor != null) {
-              queryServerActor ! OverSpeedReport(passRecord.vehicleId, formatted, passRecord.timeStamp)
+              queryServerActor ! OverSpeedReport(passRecord.vehicleId, formatted, passRecord.timeStamp, passRecord.locationId)
             }
           }
         }

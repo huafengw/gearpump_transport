@@ -1,4 +1,4 @@
-package org.apache.gearpump.example.transport
+package gearpump.example.transport
 
 import java.util.concurrent.TimeUnit
 
@@ -9,7 +9,7 @@ import akka.pattern.ask
 import org.apache.gearpump.Message
 import org.apache.gearpump.cluster.MasterToAppMaster.AppMasterDataDetailRequest
 import org.apache.gearpump.cluster.UserConfig
-import org.apache.gearpump.example.transport.QueryServer.WebServer
+import QueryServer.WebServer
 import org.apache.gearpump.streaming._
 import org.apache.gearpump.streaming.appmaster.AppMaster.{TaskActorRef, LookupTaskActorRef}
 import org.apache.gearpump.streaming.appmaster.StreamingAppMasterDataDetail

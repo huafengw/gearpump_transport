@@ -1,4 +1,4 @@
-package org.apache.gearpump.example.transport.generator
+package gearpump.example.transport.generator
 
 import scala.util.Random
 import MockCity._

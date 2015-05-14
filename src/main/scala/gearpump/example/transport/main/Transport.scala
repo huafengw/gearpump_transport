@@ -1,9 +1,10 @@
-package org.apache.gearpump.example.transport.main
+package gearpump.example.transport.main
 
+import gearpump.example.transport.{QueryServer, VelocityInspector, DataSource}
 import org.apache.gearpump.cluster.UserConfig
 import org.apache.gearpump.cluster.client.ClientContext
 import org.apache.gearpump.cluster.main.{ParseResult, ArgumentsParser, CLIOption}
-import org.apache.gearpump.example.transport.{QueryServer, VelocityInspector, DataSource}
+import org.apache.gearpump.example.transport.DataSource
 import org.apache.gearpump.partitioner.HashPartitioner
 import org.apache.gearpump.streaming.{TaskDescription, AppDescription}
 import org.apache.gearpump.util.Graph

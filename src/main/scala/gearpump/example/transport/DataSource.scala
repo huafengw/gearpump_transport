@@ -1,8 +1,9 @@
-package org.apache.gearpump.example.transport
+package gearpump.example.transport
 
+import gearpump.example.transport.generator.{MockCity, PassRecordGenerator}
 import org.apache.gearpump.Message
 import org.apache.gearpump.cluster.UserConfig
-import org.apache.gearpump.example.transport.generator.{PassRecordGenerator, MockCity}
+import org.apache.gearpump.example.transport.generator.MockCity
 import org.apache.gearpump.streaming.task.{TaskId, StartTime, TaskContext, Task}
 import scala.concurrent.duration._
 
